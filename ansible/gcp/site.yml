@@ -1,0 +1,95 @@
+- name: build back
+  tags: build_back
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - compile_back
+
+- name: build front
+  tags: build_front
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - compile_front
+
+- name: build back img
+  tags: build_back_img
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - mkbackimg
+
+- name: build front img
+  tags: build_front_img
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - mkfrontimg
+
+- name: prepare db
+  tags: prepare_db
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - prepdb
+
+- name: make swap
+  hosts: gcp_group_instance_back_group
+  gather_facts: true
+  tags: make_swap
+  become: true
+  vars:
+    service_account_file: gcp_client_hsecret.json
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i ~/.ssh/google_compute_engine -J devops@bastion.us-central1-a.teachua-6147'
+    projects: 
+      - teachua-6147
+    auth_kind: serviceaccount
+  roles:
+    - mkswap
+
+- name: install docker
+  hosts: gcp_group_instance_back_group:gcp_group_instance_front_group
+  gather_facts: true
+  tags: install_docker
+  become: true
+  vars:
+    service_account_file: gcp_client_hsecret.json
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i ~/.ssh/google_compute_engine -J devops@bastion.us-central1-a.teachua-6147'
+    projects: 
+      - teachua-6147
+    auth_kind: serviceaccount
+  roles:
+    - instdocker
+
+- name: run backend
+  hosts: gcp_group_instance_back_group
+  gather_facts: true
+  tags: run_backend
+  become: true
+  vars:
+    service_account_file: gcp_client_hsecret.json
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i ~/.ssh/google_compute_engine -J devops@bastion.us-central1-a.teachua-6147'
+    projects: 
+      - teachua-6147
+    auth_kind: serviceaccount
+  roles:
+    - deploy_back
+
+- name: run frontend
+  hosts: gcp_group_instance_front_group
+  gather_facts: true
+  tags: run_frontend
+  become: true
+  vars:
+    service_account_file: gcp_client_hsecret.json
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -i ~/.ssh/google_compute_engine -J devops@bastion.us-central1-a.teachua-6147'
+    projects: 
+      - teachua-6147
+    auth_kind: serviceaccount
+  roles:
+    - deploy_front

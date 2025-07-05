@@ -1,0 +1,16 @@
+- name: get global address
+  gcp_compute_global_address_info:
+    project: teachua-6147
+    auth_kind: serviceaccount
+    service_account_file: ./gcp_client_hsecret.json
+  register: global_address
+
+- name: change .env
+  template:
+    src: roles/compile_front/templates/.env.production.j2
+    dest: ../../frontend/.env.production
+
+- name: build front
+  shell:
+    chdir: ../../frontend
+    cmd: npm run build

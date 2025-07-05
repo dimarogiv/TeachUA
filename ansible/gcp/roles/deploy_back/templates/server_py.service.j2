@@ -1,0 +1,9 @@
+[Unit]
+Description=A minimal server required for healthcheck
+
+[Service]
+WorkingDirectory=/srv
+ExecStart=/usr/bin/python3 /usr/local/bin/server.py
+
+[Install]
+WantedBy=multi-user.target

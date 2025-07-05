@@ -1,0 +1,14 @@
+- name: copy compose.yml
+  copy:
+    src: ../../docker/backend/compose.yml
+    dest: "/root/compose.yml"
+
+- name: stop previous container
+  shell:
+    cmd: docker compose down
+  ignore_errors: true
+
+- name: launch backend container
+  shell:
+    cmd: docker compose up -d
+    chdir: /root

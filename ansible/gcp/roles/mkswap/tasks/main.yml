@@ -1,0 +1,8 @@
+---
+- name: prepare swap
+  shell: |
+    dd if=/dev/zero of=/swap status=progress bs=200M count=20
+    chmod 0600 /swap
+    chown root:root /swap
+    mkswap /swap
+    swapon /swap

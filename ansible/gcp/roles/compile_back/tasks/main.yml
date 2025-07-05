@@ -1,0 +1,4 @@
+- name: Compile back
+  shell:
+    chdir: ../../backend
+    cmd: mvn package -DskipTests

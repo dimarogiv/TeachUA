@@ -1,0 +1,9 @@
+[Unit]
+Description=Start teachua backend
+
+[Service]
+WorkingDirectory=/root
+ExecStart=bash -c '. /root/setenv.sh; java -jar /root/dev.war'
+
+[Install]
+WantedBy=multi-user.target

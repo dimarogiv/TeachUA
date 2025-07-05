@@ -1,0 +1,40 @@
+---
+- name: get global address
+  gcp_compute_global_address_info:
+    project: teachua-6147
+    auth_kind: serviceaccount
+    service_account_file: ./gcp_client_hsecret.json
+  register: global_address
+  delegate_to: localhost
+  become: true
+  become_user: dima
+
+- name: get db_instance
+  google.cloud.gcp_sql_instance_info:
+    auth_kind: serviceaccount
+    project: teachua-6147
+    service_account_file: "gcp_client_hsecret.json"
+  register: db_instance
+  delegate_to: localhost
+  become: true
+  become_user: dima
+
+- name: copy war
+  copy:
+    src: "../../backend/target/dev.war"
+    dest: "../../docker/backend/"
+    force: true
+
+- name: build image
+  shell:
+    cmd: docker build -t jimlinux/teachua-back:latest .
+    chdir: ../../docker/backend
+
+- name: generate compose.yml
+  template:
+    src: roles/mkbackimg/templates/compose.yml.j2
+    dest: ../../docker/backend/compose.yml
+
+- name: publish image
+  shell:
+    cmd: docker push jimlinux/teachua-back:latest

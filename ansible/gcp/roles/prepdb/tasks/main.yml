@@ -1,0 +1,18 @@
+---
+- name: get db_instance
+  google.cloud.gcp_sql_instance_info:
+    auth_kind: serviceaccount
+    project: teachua-6147
+    service_account_file: "gcp_client_hsecret.json"
+  register: db_instance
+  delegate_to: localhost
+  become: true
+  become_user: dima
+
+- name: prepare bucket
+  shell:
+    cmd: gcloud storage buckets add-iam-policy-binding gs://teachua-db-dump --member=serviceAccount:{{ db_instance.resources[0].serviceAccountEmailAddress }} --role=roles/storage.objectAdmin --quiet
+
+- name: import db
+  shell:
+    cmd: gcloud sql import sql teachua-postgres-instance gs://teachua-db-dump/teachua_dump.sql --database=teachua --user=pmp2025 --quiet

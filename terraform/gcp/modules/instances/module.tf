@@ -80,6 +80,7 @@ resource "google_compute_instance_group_manager" "back_group" {
   named_port {
     name = "http-back"
     port = 8080
+    #port = 3002
   }
   version {
     instance_template = google_compute_instance_template.back_temp.id
