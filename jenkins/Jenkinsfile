@@ -10,7 +10,7 @@ pipeline {
     stage ('Test dir info') {
       steps {
         sh pwd
-        sh d /home/dima
+        sh cd /home/dima
         sh pwd
       }
     }
