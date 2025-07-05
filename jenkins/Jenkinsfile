@@ -7,5 +7,12 @@ pipeline {
         echo 'another step'
       }
     }
+    stage ('Test dir info') {
+      steps {
+        sh pwd
+        sh d /home/dima
+        sh pwd
+      }
+    }
   }
 }
