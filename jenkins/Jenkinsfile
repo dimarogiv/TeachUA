@@ -10,24 +10,25 @@ pipeline {
     stage ('build front') {
       steps {
         sh '''
-          COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive || true
-          node --version
-          nvm use v14.17.4 || true
-          node --version
-          source /usr/share/nvm/init-nvm.sh
-          nvm use v14.17.4
-          node --version
+#COPY_PATH=~/.config/teachua
+#git submodule update --init --recursive || true
+#node --version
+#nvm use v14.17.4 || true
+#node --version
+#source /usr/share/nvm/init-nvm.sh
+#nvm use v14.17.4
+#node --version
           
-          echo '##############################################'
-          ls -a backend
-          echo '##############################################'
-          ls -a frontend
-          echo '##############################################'
-          cp -rn $COPY_PATH/* .
+#echo '##############################################'
+#ls -a backend
+#echo '##############################################'
+#ls -a frontend
+echo '##############################################'
+#cp -rn $COPY_PATH/* .
           '''
         sh '''
           cd ansible/gcp
+          pwd
           ansible-playbook -i inventory.gcp.yml site.yml --tags='build_front'
           '''
       }
