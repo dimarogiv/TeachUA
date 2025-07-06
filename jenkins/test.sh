@@ -1,3 +1,5 @@
 #!/usr/bin/zsh
-d TeachUA-team
+pwd
+echo $PATH
+#d TeachUA-team
 pwd
