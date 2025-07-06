@@ -10,7 +10,7 @@ pipeline {
     stage ('Test dir info') {
       steps {
         sh 'pwd'
-        sh 'echo $(whoami)'
+        sh 'echo I am $(whoami)'
       }
     }
   }
