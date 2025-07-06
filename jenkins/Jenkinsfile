@@ -11,8 +11,10 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'echo I am $(whoami)'
-        sh 'cd /home/dima/files/project/softserve/internship/teachua/TeachUA-team'
-        sh 'pwd'
+        sh '''
+          d /home/dima/files/project/softserve/internship/teachua/TeachUA-team'
+          pwd
+          '''
       }
     }
   }
