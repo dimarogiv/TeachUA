@@ -7,11 +7,12 @@ pipeline {
         echo 'another step'
       }
     }
-    stage ('Test dir info') {
+    stage ('build front') {
       steps {
-        sh 'pwd'
-        sh 'echo I am $(whoami)'
-        sh 'jenkins/test.sh'
+        sh '''
+          pwd
+          ls -a
+          '''
       }
     }
   }
