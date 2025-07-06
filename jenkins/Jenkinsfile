@@ -11,12 +11,7 @@ pipeline {
       steps {
         sh 'pwd'
         sh 'echo I am $(whoami)'
-        sh '''
-          #!/usr/bin/zsh
-          echo $0
-          d /home/dima/files/project/softserve/internship/teachua/TeachUA-team
-          pwd
-          '''
+        sh 'jenkins/test.sh'
       }
     }
   }
