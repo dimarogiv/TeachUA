@@ -10,6 +10,13 @@
     src: roles/compile_front/templates/.env.production.j2
     dest: ../../frontend/.env.production
 
+- name: install deps
+  shell:
+    chdir: ../../frontend
+    cmd: |
+      npm i ajv
+      npm i
+
 - name: build front
   shell:
     chdir: ../../frontend
