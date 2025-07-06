@@ -12,6 +12,11 @@ pipeline {
         sh '''
           COPY_PATH=~/.config/teachua
           git submodule update --init --recursive || true
+          echo '##############################################'
+          ls -a backend
+          echo '##############################################'
+          ls -a frontend
+          echo '##############################################'
           cp -rn $COPY_PATH/* .
           '''
         sh '''
