@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -24,7 +24,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -37,7 +37,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -50,7 +50,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -63,7 +63,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -76,7 +76,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
@@ -89,7 +89,7 @@ pipeline {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
-          git submodule update --init --recursive
+          git submodule update --init --recursive || true
           cp -rn $COPY_PATH/* .
           '''
         sh '''
