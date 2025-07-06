@@ -10,8 +10,84 @@ pipeline {
     stage ('build front') {
       steps {
         sh '''
-          pwd
-          ls -a
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='build_front'
+          '''
+      }
+    }
+    stage ('build back') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='build_back'
+          '''
+      }
+    }
+    stage ('build back docker image') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='build_back_img'
+          '''
+      }
+    }
+    stage ('build front docker image') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='build_front_img'
+          '''
+      }
+    }
+    stage ('install docker') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='install_docker'
+          '''
+      }
+    }
+    stage ('run backend') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='run_backend'
+          '''
+      }
+    }
+    stage ('run frontend') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='run_frontend'
           '''
       }
     }
