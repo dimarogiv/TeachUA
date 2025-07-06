@@ -12,6 +12,13 @@ pipeline {
         sh '''
           COPY_PATH=~/.config/teachua
           git submodule update --init --recursive || true
+          node --version
+          nvm use v14.17.4 || true
+          node --version
+          source /usr/share/nvm/init-nvm.sh
+          nvm use v14.17.4
+          node --version
+          
           echo '##############################################'
           ls -a backend
           echo '##############################################'
