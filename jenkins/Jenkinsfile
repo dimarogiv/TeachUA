@@ -29,7 +29,7 @@ echo '##############################################'
         sh '''
           cd ansible/gcp
           pwd
-          ansible-playbook -i inventory.gcp.yml site.yml --tags='build_front'
+          CI='' ansible-playbook -i inventory.gcp.yml site.yml --tags='build_front'
           '''
       }
     }
