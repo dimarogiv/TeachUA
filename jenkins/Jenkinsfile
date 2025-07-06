@@ -12,6 +12,7 @@ pipeline {
         sh 'pwd'
         sh 'echo I am $(whoami)'
         sh '''
+          #!/usr/bin/zsh
           d /home/dima/files/project/softserve/internship/teachua/TeachUA-team
           pwd
           '''
