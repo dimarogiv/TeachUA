@@ -20,10 +20,10 @@
     cmd: docker build -t jimlinux/teachua-front:latest .
     chdir: ../../docker/frontend
 
-- name: generate compose.yml
-  template:
-    src: roles/mkfrontimg/templates/compose.yml.j2
-    dest: ../../docker/frontend/compose.yml
+#- name: generate compose.yml
+#  template:
+#    src: roles/mkfrontimg/templates/compose.yml.j2
+#    dest: ../../docker/frontend/compose.yml
 
 - name: publish image
   shell:

@@ -9,14 +9,22 @@ resource "google_compute_subnetwork" "back" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_compute_subnetwork" "front" {
-  name          = var.front_subnetwork_name
-  ip_cidr_range = var.front_ip_range
-  region        = var.google_region_name
-  network       = google_compute_network.vpc_network.id
-}
+module "cloud_router" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 7.0"
+  name    = "main-router"
+  project = "teachua-6147"
+  network = var.network_name
+  region  = "us-central1"
 
-resource "google_compute_global_address" "proxy" {
-  name       = "proxy-access"
-  ip_version = "IPV4"
+  nats = [{
+    name                               = "main-nat-gateway"
+    source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+    subnetworks = [
+      {
+        name                    = google_compute_subnetwork.back.id
+        source_ip_ranges_to_nat = ["PRIMARY_IP_RANGE"]
+      }
+    ]
+  }]
 }

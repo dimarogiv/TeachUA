@@ -1,34 +1,33 @@
 variable "compute_network" {}
 variable "back_subnetwork" {}
-variable "front_subnetwork" {}
 variable "google_zone_name" {}
 
 variable "bastion_name" {
   default = "bastion"
 }
+variable "controlplane_name" {
+  default = "controlplane"
+}
 variable "back_name" {
   default = "back"
-}
-variable "front_name" {
-  default = "front"
 }
 
 variable "bastion_machine_type" {
   default = "f1-micro"
 }
-variable "back_machine_type" {
-  default = "f1-micro"
+variable "controlplane_machine_type" {
+  default = "c2d-highcpu-2"
 }
-variable "front_machine_type" {
-  default = "f1-micro"
+variable "back_machine_type" {
+  default = "c2d-highcpu-2"
 }
 
 variable "bastion_init_image" {
   default = "debian-cloud/debian-11"
 }
-variable "back_init_image" {
+variable "controlplane_init_image" {
   default = "debian-cloud/debian-11"
 }
-variable "front_init_image" {
+variable "back_init_image" {
   default = "debian-cloud/debian-11"
 }

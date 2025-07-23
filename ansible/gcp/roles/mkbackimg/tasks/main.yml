@@ -30,10 +30,10 @@
     cmd: docker build -t jimlinux/teachua-back:latest .
     chdir: ../../docker/backend
 
-- name: generate compose.yml
-  template:
-    src: roles/mkbackimg/templates/compose.yml.j2
-    dest: ../../docker/backend/compose.yml
+#- name: generate compose.yml
+#  template:
+#    src: roles/mkbackimg/templates/compose.yml.j2
+#    dest: ../../docker/backend/compose.yml
 
 - name: publish image
   shell:

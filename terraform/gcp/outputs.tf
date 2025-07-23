@@ -1,5 +1,5 @@
 output "global_address" {
-  value = module.gcp_network[0].global_address.address
+  value = module.gcp_instances[0].controlplane.network_interface.0.access_config[0].nat_ip
 }
 
 output "bastion_ip" {

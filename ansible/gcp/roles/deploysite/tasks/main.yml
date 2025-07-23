@@ -1,0 +1,61 @@
+- name: get global address
+  gcp_compute_instance_info:
+    project: teachua-6147
+    auth_kind: serviceaccount
+    service_account_file: ./gcp_client_hsecret.json
+    zone: us-central1-c
+    filters:
+      - name = controlplane
+  register: global_address
+  delegate_to: localhost
+  become: true
+  become_user: dima
+
+- name: get db_instance
+  google.cloud.gcp_sql_instance_info:
+    auth_kind: serviceaccount
+    project: teachua-6147
+    service_account_file: "gcp_client_hsecret.json"
+  register: db_instance
+  delegate_to: localhost
+  become: true
+  become_user: dima
+
+- name: copy files
+  copy:
+    src: "{{ item }}"
+    dest: /home/devops
+  with_fileglob:
+    - roles/deploysite/files/*
+
+- name: apply templates
+  template:
+    src: "{{ item }}"
+    dest: /home/devops/{{ item | basename | regex_replace('\.j2$', '') }}
+  with_fileglob:
+    - roles/deploysite/templates/*.j2
+
+- name: install metallb
+  shell:
+    cmd: |
+      sudo helm repo add metallb https://metallb.github.io/metallb
+      sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm install metallb metallb/metallb
+      sudo k3s kubectl delete validatingwebhookconfiguration metallb-webhook-configuration
+  ignore_errors: true
+
+- name: add certs
+  shell:
+    cmd: sudo k3s kubectl create secret tls tls --key=tls.key --cert=tls.pem
+  ignore_errors: true
+
+- name: run the site
+  shell:
+    cmd: sudo k3s kubectl apply -f backend-deployment.yaml,frontend-deployment.yaml,backend-service.yaml,frontend-service.yaml,ingress.yaml,metallb-config.yaml
+
+- name: make monitoring
+  shell:
+    cmd: |
+      sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      sudo helm repo update
+      sudo KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm install monitoring prometheus-community/kube-prometheus-stack -f monitoring.yaml
+  ignore_errors: true

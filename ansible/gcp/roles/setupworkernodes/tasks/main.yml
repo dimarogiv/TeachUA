@@ -1,0 +1,9 @@
+- name: get node-token
+  shell:
+    cmd: sudo cat /var/lib/rancher/k3s/server/node-token
+  delegate_to: controlplane
+  register: node_token
+
+- name: launch k3s-agent
+  shell:
+    cmd: curl -sfL https://get.k3s.io | sudo K3S_URL=https://controlplane:6443 K3S_TOKEN={{ node_token.stdout }} sh -

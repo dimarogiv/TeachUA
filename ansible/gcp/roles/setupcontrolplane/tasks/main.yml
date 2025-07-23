@@ -1,0 +1,37 @@
+- name: stop man-db autoupdate
+  shell:
+    cmd: sudo rm -f /var/lib/man-db/auto-update
+
+- name: add helm repo
+  shell:
+    cmd: curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+
+- name: install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: latest
+
+- name: add helm gpg
+  shell:
+    cmd: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+
+- name: Remove broken bullseye-backports repo
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: '^deb.*bullseye-backports'
+    state: absent
+  become: true
+  become_user: root
+
+- name: update apt cache
+  apt:
+    update_cache: true
+
+- name: install helm
+  apt:
+    name: helm
+    state: latest
+
+- name: install k3s server
+  shell:
+    cmd: curl -sfL https://get.k3s.io | sudo sh -

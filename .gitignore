@@ -83,3 +83,10 @@ compose.yml
 compose.yml.j2
 setenv.sh.j2
 *.pem
+
+frontend-deployment.yaml.j2
+backend-deployment.yaml.j2
+tls.pem
+tls.key
+monitoring.yaml
+ingress.yaml

@@ -39,7 +39,6 @@ module "gcp_instances" {
   count            = var.cloud_platform == "gcp" ? 1 : 0
   compute_network  = module.gcp_network[0].compute_network
   back_subnetwork  = module.gcp_network[0].back_subnetwork
-  front_subnetwork = module.gcp_network[0].front_subnetwork
   google_zone_name = var.google_zone_name
 }
 
@@ -50,14 +49,6 @@ module "gcp_database" {
   backend_ip  = module.gcp_instances[0].backend_ip
   db_password = var.db_password
   db_user     = var.db_user
-}
-
-module "gcp_proxy" {
-  source         = "./modules/proxy"
-  count          = var.cloud_platform == "gcp" ? 1 : 0
-  back_group     = module.gcp_instances[0].back_group
-  front_group    = module.gcp_instances[0].front_group
-  global_address = module.gcp_network[0].global_address
 }
 
 module "gcp_firewall" {
