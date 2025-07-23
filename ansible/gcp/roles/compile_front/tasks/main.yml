@@ -18,9 +18,13 @@
 - name: install deps
   shell:
     chdir: ../../frontend
-    cmd: npm i
+    cmd: |
+      nvm use v16
+      npm i
 
 - name: build front
   shell:
     chdir: ../../frontend
-    cmd: npm run build
+    cmd: |
+      nvm use v16
+      npm run build
