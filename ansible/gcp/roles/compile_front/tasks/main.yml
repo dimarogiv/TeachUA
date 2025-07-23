@@ -18,9 +18,7 @@
 - name: install deps
   shell:
     chdir: ../../frontend
-    cmd: |
-      npm i ajv
-      npm i
+    cmd: npm i
 
 - name: build front
   shell:
