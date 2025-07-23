@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+  stages {
+    stage ('deploy site') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          git submodule update --init --recursive || true
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd terraform/gcp
+          yes yes | terraform apply
+          '''
+      }
+    }
+    stage ('prepare database') {
+      steps {
+        sh '''
+          COPY_PATH=~/.config/teachua
+          git submodule update --init --recursive || true
+          cp -rn $COPY_PATH/* .
+          '''
+        sh '''
+          cd ansible/gcp
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='prepare_db'
+          '''
+      }
+    }
+  }
+}
