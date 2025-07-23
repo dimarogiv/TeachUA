@@ -18,6 +18,7 @@
 - name: install deps
   shell:
     chdir: ../../frontend
+    executable: /usr/bin/zsh
     cmd: |
       nvm use v16
       npm i
@@ -25,6 +26,7 @@
 - name: build front
   shell:
     chdir: ../../frontend
+    executable: /usr/bin/zsh
     cmd: |
       nvm use v16
       npm run build
