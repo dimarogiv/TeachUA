@@ -6,7 +6,7 @@ pipeline {
         sh '''
           COPY_PATH=~/.config/teachua
           git submodule update --init --recursive || true
-          cp -rn $COPY_PATH/* .
+          cp -rf $COPY_PATH/* .
           '''
         sh '''
           cd terraform/gcp
