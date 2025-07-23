@@ -60,7 +60,7 @@ pipeline {
           '''
       }
     }
-    stage ('install docker') {
+    stage ('setup controlplane') {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
@@ -69,11 +69,11 @@ pipeline {
           '''
         sh '''
           cd ansible/gcp
-          ansible-playbook -i inventory.gcp.yml site.yml --tags='install_docker'
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='setup_controlplane'
           '''
       }
     }
-    stage ('run backend') {
+    stage ('setup worker nodes') {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
@@ -82,11 +82,11 @@ pipeline {
           '''
         sh '''
           cd ansible/gcp
-          ansible-playbook -i inventory.gcp.yml site.yml --tags='run_backend'
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='setup_worker_nodes'
           '''
       }
     }
-    stage ('run frontend') {
+    stage ('deploy site') {
       steps {
         sh '''
           COPY_PATH=~/.config/teachua
@@ -95,7 +95,7 @@ pipeline {
           '''
         sh '''
           cd ansible/gcp
-          ansible-playbook -i inventory.gcp.yml site.yml --tags='run_frontend'
+          ansible-playbook -i inventory.gcp.yml site.yml --tags='deploy_site'
           '''
       }
     }
