@@ -10,6 +10,11 @@
     src: roles/compile_front/templates/.env.production.j2
     dest: ../../frontend/.env.production
 
+- name: copy shrinkwrap
+  copy:
+    src: roles/compile_front/files/npm-shrinkwrap.json
+    dest: .../../frontend
+
 - name: install deps
   shell:
     chdir: ../../frontend
