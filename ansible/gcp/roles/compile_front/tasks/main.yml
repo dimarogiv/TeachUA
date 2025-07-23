@@ -13,7 +13,7 @@
 - name: copy shrinkwrap
   copy:
     src: roles/compile_front/files/npm-shrinkwrap.json
-    dest: .../../frontend
+    dest: ../../frontend
 
 - name: install deps
   shell:
